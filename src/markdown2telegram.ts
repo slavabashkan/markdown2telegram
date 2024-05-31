@@ -19,7 +19,7 @@ function processTokens(tokens: Token[], target: string[]) {
         if (processor != null)
             processor(token, target);
         else
-            target.push(token.raw);                             
+            target.push(token.raw);
     }
 }
 
@@ -42,7 +42,7 @@ const processors: Map<string, (token: Token, target: string[]) => void> = new Ma
     //[ 'link', (t, s) => s.push(t.raw) ],
     //[ 'image', (t, s) => s.push(t.raw) ],
     [ 'strong', (t, s) => processStrong(t as Tokens.Strong, s) ],
-    //[ 'em', (t, s) => s.push(t.raw) ],
+    [ 'em', (t, s) => processEm(t as Tokens.Em, s) ],
     //[ 'codespan', (t, s) => s.push(t.raw) ],
     //[ 'br', (t, s) => s.push(t.raw) ],
     //[ 'del', (t, s) => s.push(t.raw) ]
@@ -79,4 +79,15 @@ function processStrong(token: Tokens.Strong, target: string[]) {
     target.push('*');
     processTokens(token.tokens, target);
     target.push('*');
+}
+
+function processEm(token: Tokens.Em, target: string[]) {
+    if (token.tokens == null || token.tokens.length == 0) {
+        target.push(token.text);
+        return;
+    }
+
+    target.push('_');
+    processTokens(token.tokens, target);
+    target.push('_');
 }
