@@ -19,7 +19,7 @@ function processTokens(tokens: Token[], target: string[]) {
         if (processor != null)
             processor(token, target);
         else
-            target.push(token.raw);
+            target.push(escapeChars(token.raw));
     }
 }
 
@@ -48,6 +48,10 @@ const processors: Map<string, (token: Token, target: string[]) => void> = new Ma
     //[ 'del', (t, s) => s.push(t.raw) ]
 ]);
 
+function escapeChars(str: string): string {
+    return str.replace(/([_*[\]()>#+-=|{}.!~`])/g, '\\$1');
+};
+
 function processSpace(token: Tokens.Space, target: string[]) {
     target.push(token.raw);
 }
@@ -63,7 +67,7 @@ function processParagraph(token: Tokens.Paragraph, target: string[]) {
 
 function processText(token: Tokens.Text, target: string[]) {
     if (token.tokens == null || token.tokens.length == 0) {
-        target.push(token.text);
+        target.push(escapeChars(token.text));
         return;
     }
 
