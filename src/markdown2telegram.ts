@@ -1,7 +1,16 @@
-import { marked, Token, Tokens } from 'marked';
+import { marked, MarkedOptions, Token, Tokens } from 'marked';
+
+import { ecsunesc } from './common';
 
 export const convert = (text: string): string => {
-    const tokens = marked.lexer(text);
+    const options: MarkedOptions = {
+        async: false,
+        breaks: true,
+        gfm: true,
+        pedantic: false,
+        silent: false
+    };
+    const tokens = marked.lexer(text, options);
 
     const result: string[] = [];
 
@@ -44,31 +53,9 @@ const processors: Map<string, (token: Token, target: string[]) => void> = new Ma
     [ 'strong', (t, s) => processStrong(t as Tokens.Strong, s) ],
     [ 'em', (t, s) => processEm(t as Tokens.Em, s) ],
     [ 'codespan', (t, s) => processCodespan(t as Tokens.Codespan, s) ],
-    //[ 'br', (t, s) => s.push(t.raw) ],
+    [ 'br', (t, s) => processBr(t as Tokens.Br, s) ],
     [ 'del', (t, s) => processDel(t as Tokens.Del, s) ]
 ]);
-
-function escapeChars(str: string): string {
-    return str.replace(/([_*[\]()>#+\-=|{}.!~`])/g, '\\$1');
-};
-
-const unescapeReplacements: {[index: string]: string} = {
-    '&gt;': '>',
-    '&lt;': '<',
-    '&amp;': '&',
-    '&quot;': '"',
-    '&#39;': '\''
-};
-
-const escapedCharsRegEx = new RegExp(/&gt;|&lt;|&amp;|&quot;|&#39;/g);
-
-function unescapeString(str: string): string {
-    return str.replace(escapedCharsRegEx, (match) => unescapeReplacements[match]);
-}
-
-function ecsunesc(str: string): string {
-    return escapeChars(unescapeString(str));
-}
 
 function processSpace(token: Tokens.Space, target: string[]) {
     target.push('\n');
@@ -232,11 +219,16 @@ function processEm(token: Tokens.Em, target: string[]) {
 
 function processCodespan(token: Tokens.Codespan, target: string[]) {
     target.push('`');
-    target.push(ecsunesc(token.text));
+    target.push(token.text);
     target.push('`');
 }
 
+function processBr(token: Tokens.Br, target:string[]) {
+    target.push('\n');
+}
+
 function processDel(token: Tokens.Del, target: string[]) {
+    console.log(token);
     target.push('~');
 
     if (token.tokens == null || token.tokens.length == 0)
