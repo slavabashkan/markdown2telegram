@@ -1,0 +1,53 @@
+# Markdown Example
+
+## Headings
+
+This is an example demonstrating different Markdown features.
+'1' <> "&2"
+
+### Text Formatting - Escaping
+
+- **Bold Text**: This is __bold__ text.
+- *Italic Text*: This is _italic_ text.
+- ~~Strikethrough~~: This is ~~strikethrough~~ text.
+-
+- This is `inline code`.
+- Forbidden symbols: '_', '*', '[', ']', '(', ')', '~', '`', '>', '#', '+', '-', '=', '|', '{', '}', '.', '!'
+- Forbidden symbols: _ * [ ] ( ) ~ ` > # + - = | { } . !
+
+### Code Block
+
+Here is a small block of JavaScript code:
+```c++
+function greet(name) {
+    console.log(`Hello, ${name}!`);
+}
+
+greet('World');
+```
+
+```
+Some code
+```
+
+### Link: Google
+
+Here is a [link `to` **Google+**](https://www.google.com).
+Here is link to https://www.yahoo.com.
+Here is link to [https://www.yahoo.com](https://www.yahoo.com).
+[Empty link]()
+[__broken__](link)
+[](www.hidden.link)
+
+### Ordered List
+
+1. First item
+
+2. Second *item*
+
+3. Third item
+
+### Bullet List (with non-English text)
+- こんにちは！🌸 今日はとてもいい天気です。🌞
+- مرحبًا! 🌟 اليوم هو يوم جميل. 🌺
+- שלום! 🌼 היום יום יפה. ☀️
