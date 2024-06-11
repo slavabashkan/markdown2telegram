@@ -1,5 +1,5 @@
 function escapeChars(str: string): string {
-    return str.replace(/([_*[\]()>#+\-=|{}.!~`])/g, '\\$1');
+    return str.replace(/([_*[\]()>#+\-=|{}.!~`\\])/g, '\\$1');
 };
 
 const unescapeReplacements: {[index: string]: string} = {
