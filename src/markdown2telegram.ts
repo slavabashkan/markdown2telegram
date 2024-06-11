@@ -47,7 +47,7 @@ const processors: Map<string, (token: Token, target: string[]) => void> = new Ma
     //[ 'html', (t, s) => s.push(t.raw) ],
     [ 'text', (t, s) => processText(t as Tokens.Text, s) ],
     //[ 'def', (t, s) => s.push(t.raw) ],
-    //[ 'escape', (t, s) => s.push(t.raw) ],
+    [ 'escape', (t, s) => processEscape(t as Tokens.Escape, s) ],
     [ 'link', (t, s) => processLink(t as Tokens.Link, s) ],
     //[ 'image', (t, s) => s.push(t.raw) ],
     [ 'strong', (t, s) => processStrong(t as Tokens.Strong, s) ],
@@ -157,6 +157,10 @@ function processText(token: Tokens.Text, target: string[]) {
     }
 
     processTokens(token.tokens, target);
+}
+
+function processEscape(token: Tokens.Escape, target: string[]) {
+    target.push(ecsunesc(token.text));
 }
 
 function processLink(token: Tokens.Link, target: string[]) {
